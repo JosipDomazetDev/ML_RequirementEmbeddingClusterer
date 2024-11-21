@@ -1,0 +1,25 @@
+@startuml
+skinparam componentStyle rectangle
+
+actor User
+
+' Define Components
+component "Delivery Address Management" as Cluster0
+component "Order Processing and Automation" as Cluster1
+component "Customer Experience and Fulfillment" as Cluster2
+component "Order Customization and Validation" as Cluster3
+component "Pricing and Reporting" as Cluster4
+
+' User interactions
+User --> Cluster2 : Place orders
+User --> Cluster3 : Customize orders
+User --> Cluster0 : Specify delivery address
+
+' Interactions between components
+Cluster2 --> Cluster1 : Submit order for processing
+Cluster1 --> Cluster4 : Validate pricing and generate reports
+Cluster1 --> Cluster0 : Enforce delivery address restrictions
+Cluster3 --> Cluster1 : Send customized orders for processing
+Cluster4 --> User : Provide business reports and invoices
+
+@enduml

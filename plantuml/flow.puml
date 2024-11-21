@@ -1,0 +1,29 @@
+@startuml
+start
+:Load environment variables (.env);
+:Fetch API keys for OpenAI and Pinecone;
+
+:Load list of business requirements;
+:Check if embeddings.txt exists;
+
+if (embeddings.txt exists?) then (yes)
+    :Load embeddings from embeddings.txt;
+else (no)
+    :Generate embeddings using OpenAI API;
+    :Save embeddings to embeddings.txt;
+endif
+
+:Initialize Pinecone;
+:Create or connect to the Pinecone index;
+
+:Upsert embeddings to Pinecone index;
+:Query Pinecone to retrieve embeddings;
+
+:Cluster embeddings using K-Means;
+:Save clusters to clusters.json;
+
+:Visualize clusters as:
+  - Scatter plot (clusters.png);
+  - Textual representation;
+stop
+@enduml

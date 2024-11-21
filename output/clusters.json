@@ -1,0 +1,39 @@
+{
+  "Cluster 0": [
+    "Restrict orders to one delivery address per customer."
+  ],
+  "Cluster 1": [
+    "Process orders with various products in different amounts (prepackaged and simple products).",
+    "Block blacklisted customers from placing orders.",
+    "Generate a label with customer and delivery details for each order.",
+    "Optimize delivery routes for delivery clerks.",
+    "Allow order cancellations (only before assembly is complete).",
+    "Automate ordering, labeling, and route calculation with a web-based application.",
+    "Replace phone-based order placement with a web interface.",
+    "Allow customers to search for products without authentication.",
+    "Integrate with the existing payment system by transferring payment records after packing."
+  ],
+  "Cluster 2": [
+    "Deliver breakfast to all parts of the city within 25 minutes.",
+    "Provide prepackaged breakfasts (e.g., mini-breakfast, luxury breakfast).",
+    "Allow customers to assemble individual breakfasts by choosing from a product list.",
+    "Allow customers to name a previous order as a blueprint for a new order.",
+    "Print invoices showing detailed order information."
+  ],
+  "Cluster 3": [
+    "Support prepackaged products that may contain other prepackaged and/or simple products.",
+    "Authenticate customers by their customer number.",
+    "Permit order customization through: Naming products.Choosing from a product list.Reusing a previous order.",
+    "Provide an order number after the order is placed.",
+    "Allow packing clerks to assemble orders manually.",
+    "Provide order status inquiries over the phone.",
+    "Restrict updates to canceling and replacing orders.",
+    "Introduce SMS-based order placement with specific formats for placing and canceling orders.",
+    "Enable browser-based delivery confirmations via customer password entry."
+  ],
+  "Cluster 4": [
+    "Maintain unit-based pricing denominated in Euros.",
+    "Ensure that multiple invoice copies are numbered separately.",
+    "Automatically generate a daily business report listing order details (products, quantities, clerks, customers, addresses, etc.)."
+  ]
+}

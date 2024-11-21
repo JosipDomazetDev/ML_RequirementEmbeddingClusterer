@@ -1,0 +1,22 @@
+@startuml
+actor User
+participant "main.py" as Main
+participant "OpenAI API" as OpenAI
+participant "Pinecone DB" as Pinecone
+participant "K-Means Clustering" as Clustering
+participant "Visualization Module" as Visualization
+
+User -> Main: Start Script
+Main -> OpenAI: Generate embeddings for each requirement
+OpenAI --> Main: Return embeddings
+
+Main -> Pinecone: Store embeddings in vector database
+Main -> Pinecone: Query stored embeddings
+Pinecone --> Main: Return queried embeddings
+
+Main -> Clustering: Group embeddings into clusters
+Clustering --> Main: Return cluster labels
+
+Main -> Visualization: Create scatter plot and textual output
+Visualization --> User: Display results (plot and text)
+@enduml
