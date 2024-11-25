@@ -193,7 +193,7 @@ def main():
     data = [res['values'] for res in result['matches']]
 
     num_clusters = 5
-    clusters = cluster_embeddings(data, requirements, num_clusters)
+    clusters = cluster_embeddings(embeddings, requirements, num_clusters)
     save_clusters_to_file(clusters, requirements, num_clusters)
 
     visualize_embeddings(data, clusters)
