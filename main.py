@@ -221,19 +221,18 @@ def main():
     requirements = get_requirements()
 
     embeddings = get_embeddings(oai, requirements)
-    pinecone_index = setup_pinecone()
 
-    upsert_embeddings_to_pinecone(pinecone_index, embeddings)
-
-    query_vector = embeddings[0]  # Use the first embedding as the query vector
-    result = pinecone_index.query(vector=query_vector, top_k=len(embeddings), include_values=True)
-    data = [res['values'] for res in result['matches']]
+    #pinecone_index = setup_pinecone()
+    #upsert_embeddings_to_pinecone(pinecone_index, embeddings)
+    #query_vector = embeddings[0]  # Use the first embedding as the query vector
+    #result = pinecone_index.query(vector=query_vector, top_k=len(embeddings), include_values=True)
+    #data = [res['values'] for res in result['matches']]
 
     num_clusters = 12
     clusters = cluster_embeddings(embeddings, requirements, num_clusters)
     save_clusters_to_file(clusters, requirements, num_clusters)
 
-    visualize_embeddings(data, clusters)
+    visualize_embeddings(embeddings, clusters)
 
 
 # Execute the main function
