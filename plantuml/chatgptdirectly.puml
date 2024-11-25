@@ -1,0 +1,50 @@
+@startuml
+skinparam componentStyle rectangle
+
+actor Customer
+actor Manager
+
+' Components
+component "Web Interface" as WebInterface
+component "SMS Interface Module" as SMSInterface
+component "Customer Management" as CustomerManagement
+component "Order Management" as OrderManagement
+component "Product Catalog" as ProductCatalog
+component "Packaging Management" as PackagingManagement
+component "Delivery Management" as DeliveryManagement
+component "Payment Integration" as PaymentIntegration
+component "Business Reporting" as BusinessReporting
+component "Notification and Messaging" as NotificationMessaging
+
+' Customer interactions
+Customer --> WebInterface : Search Products
+Customer --> WebInterface : Place Order
+Customer --> WebInterface : Cancel Order
+Customer --> WebInterface : Track Order Status
+Customer --> SMSInterface : Place/Cancel Order (via SMS)
+
+' Web and SMS to core business logic
+WebInterface --> OrderManagement : Process Order/Cancellation
+SMSInterface --> OrderManagement : Parse and Forward Order/Cancellation
+WebInterface --> ProductCatalog : Fetch Products
+
+' Core system interactions
+OrderManagement --> CustomerManagement : Validate Customer
+OrderManagement --> ProductCatalog : Validate Products
+OrderManagement --> PackagingManagement : Notify for Packing
+OrderManagement --> NotificationMessaging : Send Confirmation/Updates
+OrderManagement --> DeliveryManagement : Notify for Delivery
+
+PackagingManagement --> PaymentIntegration : Generate Payment Record
+PackagingManagement --> DeliveryManagement : Forward Packed Order
+
+DeliveryManagement --> NotificationMessaging : Notify Customer
+DeliveryManagement --> OrderManagement : Update Delivery Status
+
+' Reporting interactions
+Manager --> BusinessReporting : View Reports
+BusinessReporting --> OrderManagement : Fetch Order Data
+BusinessReporting --> DeliveryManagement : Fetch Delivery Data
+BusinessReporting --> PackagingManagement : Fetch Packing Data
+
+@enduml
