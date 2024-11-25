@@ -1,39 +1,71 @@
 {
   "Cluster 0": [
-    "Block blacklisted customers from placing orders.",
-    "Allow customers to name a previous order as a blueprint for a new order.",
-    "Restrict orders to one delivery address per customer.",
-    "Ensure that multiple invoice copies are numbered separately.",
-    "Restrict updates to canceling and replacing orders."
+    "The system must store one predefined address per customer for delivery."
   ],
   "Cluster 1": [
-    "Process orders with various products in different amounts (prepackaged and simple products).",
-    "Maintain unit-based pricing denominated in Euros.",
-    "Optimize delivery routes for delivery clerks.",
-    "Automate ordering, labeling, and route calculation with a web-based application."
+    "Customers must be able to place orders only over the phone.",
+    "Customers must call the company number and provide their customer number.",
+    "The system must not allow collective orders from several customers."
   ],
   "Cluster 2": [
-    "Deliver breakfast to all parts of the city within 25 minutes.",
-    "Provide prepackaged breakfasts (e.g., mini-breakfast, luxury breakfast).",
-    "Allow customers to assemble individual breakfasts by choosing from a product list.",
-    "Support prepackaged products that may contain other prepackaged and/or simple products."
+    "The system must guarantee breakfast delivery in less than 25 minutes to all parts of the city.",
+    "The system must allow offering prepackaged breakfasts like mini-breakfast, luxury breakfast, etc.",
+    "Customers must be able to assemble individual breakfasts from simple products.",
+    "Customers must be able to request suitable product recommendations based on specified criteria (e.g., calorie count and price)."
   ],
   "Cluster 3": [
-    "Authenticate customers by their customer number.",
-    "Provide an order number after the order is placed.",
-    "Provide order status inquiries over the phone.",
-    "Allow order cancellations (only before assembly is complete).",
-    "Replace phone-based order placement with a web interface.",
-    "Introduce SMS-based order placement with specific formats for placing and canceling orders.",
-    "Enable browser-based delivery confirmations via customer password entry."
+    "The system must validate customer numbers based on their format (area code, digits, checksum).",
+    "Customers must be able to add products directly to the shopping cart by naming them.",
+    "Customers must be able to inquire about the status of an order by providing the order number.",
+    "Customers must confirm deliveries via browser on a smartphone by entering a password.",
+    "Customers must be able to place orders via text message using a predefined string format including customer number, password, product codes, and quantities.",
+    "Each product must have a unique product code for SMS orders.",
+    "The system must handle SMS orders within the limitations of text message length.",
+    "The system must respond to SMS orders with a text message containing the assigned order number.",
+    "Customers must be able to cancel orders via text message by providing the order number in a predefined format.",
+    "Payment records must include customer number, order number, total amount in Euros, and expected payment date."
   ],
   "Cluster 4": [
-    "Permit order customization through: Naming products.Choosing from a product list.Reusing a previous order.",
-    "Allow packing clerks to assemble orders manually.",
-    "Generate a label with customer and delivery details for each order.",
-    "Print invoices showing detailed order information.",
-    "Allow customers to search for products without authentication.",
-    "Integrate with the existing payment system by transferring payment records after packing.",
-    "Automatically generate a daily business report listing order details (products, quantities, clerks, customers, addresses, etc.)."
+    "Customers must be able to use a previous order as a blueprint for a new order.",
+    "The system must allow combining multiple methods of assembling a shopping cart within a single order but restrict each order to one blueprint at most.",
+    "An order must be able to serve as a blueprint many times."
+  ],
+  "Cluster 5": [
+    "Packing clerks must ensure each reprinted invoice has a unique copy number.",
+    "Delivery clerks must print itineraries, take the corresponding bags and invoices, and collect customer signatures for order confirmation.",
+    "Delivery clerks must ensure customers sign a copy of the invoice, which is retained by the company, while the customer keeps another copy."
+  ],
+  "Cluster 6": [
+    "Packing clerks must be able to assemble orders based on shopping cart contents.",
+    "Packing clerks must be able to print a label for the order containing the packing clerk's name, customer's first name, surname, address, order number, and assigned delivery clerk.",
+    "Packing clerks must be able to attach the labels to the paper bags.",
+    "Packing clerks must be able to print an invoice showing the label data plus the ordered products, their quantities, and total price.",
+    "Delivery clerks must calculate optimal itineraries for delivering multiple orders.",
+    "The system must indicate whether the delivery clerk is on the way.",
+    "The user groups are customers, packing clerks, delivery clerks, and managers.",
+    "The system must automatically generate and print a nightly business report for managers, detailing orders of the day, products, amounts, packing clerks, delivery clerks, customers, addresses, and order numbers."
+  ],
+  "Cluster 7": [
+    "Customers must be able to cancel an order by providing the order number, but only before the order has been assembled.",
+    "Canceled orders cannot be undone.",
+    "Orders cannot be updated; customers must cancel and place a new order if changes are needed."
+  ],
+  "Cluster 8": [
+    "The system must be web-based, automating all current processes, replacing phone ordering.",
+    "The system must replace text processing systems for labeling.",
+    "The system must replace spreadsheet tools for itinerary calculation.",
+    "The system must generate and transfer payment records to the existing payment system upon order assembly."
+  ],
+  "Cluster 9": [
+    "The application must support the following browsers (specific versions to be defined).",
+    "The application must provide a browser-based, unauthenticated product search feature."
+  ],
+  "Cluster 10": [
+    "Prepackaged products may contain simple products or other prepackaged products.",
+    "Typical orders must consist of various amounts of prepackaged and/or simple products.",
+    "Each product must have associated attributes: unit (e.g., grams) and price (in Euros)."
+  ],
+  "Cluster 11": [
+    "The system must authenticate customers, including a check for blacklisted customers."
   ]
 }

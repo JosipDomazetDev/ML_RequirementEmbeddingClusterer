@@ -9,7 +9,6 @@ from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-
 # Load environment variables
 load_dotenv()
 
@@ -25,34 +24,51 @@ def initialize_openai():
 # Requirements list
 def get_requirements():
     return [
-        "Deliver breakfast to all parts of the city within 25 minutes.",
-        "Provide prepackaged breakfasts (e.g., mini-breakfast, luxury breakfast).",
-        "Allow customers to assemble individual breakfasts by choosing from a product list.",
-        "Support prepackaged products that may contain other prepackaged and/or simple products.",
-        "Process orders with various products in different amounts (prepackaged and simple products).",
-        "Maintain unit-based pricing denominated in Euros.",
-        "Authenticate customers by their customer number.",
-        "Block blacklisted customers from placing orders.",
-        "Allow customers to name a previous order as a blueprint for a new order.",
-        "Permit order customization through: Naming products.Choosing from a product list.Reusing a previous order.",
-        "Restrict orders to one delivery address per customer.",
-        "Provide an order number after the order is placed.",
-        "Allow packing clerks to assemble orders manually.",
-        "Generate a label with customer and delivery details for each order.",
-        "Print invoices showing detailed order information.",
-        "Ensure that multiple invoice copies are numbered separately.",
-        "Optimize delivery routes for delivery clerks.",
-        "Provide order status inquiries over the phone.",
-        "Allow order cancellations (only before assembly is complete).",
-        "Restrict updates to canceling and replacing orders.",
-        "Automate ordering, labeling, and route calculation with a web-based application.",
-        "Replace phone-based order placement with a web interface.",
-        "Allow customers to search for products without authentication.",
-        "Introduce SMS-based order placement with specific formats for placing and canceling orders.",
-        "Integrate with the existing payment system by transferring payment records after packing.",
-        "Enable browser-based delivery confirmations via customer password entry.",
-        "Automatically generate a daily business report listing order details (products, quantities, clerks, customers, "
-        "addresses, etc.)."
+        "The system must guarantee breakfast delivery in less than 25 minutes to all parts of the city.",
+        "The system must allow offering prepackaged breakfasts like mini-breakfast, luxury breakfast, etc.",
+        "Customers must be able to assemble individual breakfasts from simple products.",
+        "Prepackaged products may contain simple products or other prepackaged products.",
+        "Typical orders must consist of various amounts of prepackaged and/or simple products.",
+        "Each product must have associated attributes: unit (e.g., grams) and price (in Euros).",
+        "Customers must be able to place orders only over the phone.",
+        "Customers must call the company number and provide their customer number.",
+        "The system must validate customer numbers based on their format (area code, digits, checksum).",
+        "The system must not allow collective orders from several customers.",
+        "The system must authenticate customers, including a check for blacklisted customers.",
+        "Customers must be able to add products directly to the shopping cart by naming them.",
+        "Customers must be able to request suitable product recommendations based on specified criteria (e.g., calorie count and price).",
+        "Customers must be able to use a previous order as a blueprint for a new order.",
+        "The system must allow combining multiple methods of assembling a shopping cart within a single order but restrict each order to one blueprint at most.",
+        "An order must be able to serve as a blueprint many times.",
+        "The system must store one predefined address per customer for delivery.",
+        "Packing clerks must be able to assemble orders based on shopping cart contents.",
+        "Packing clerks must be able to print a label for the order containing the packing clerk's name, customer's first name, surname, address, order number, and assigned delivery clerk.",
+        "Packing clerks must be able to attach the labels to the paper bags.",
+        "Packing clerks must be able to print an invoice showing the label data plus the ordered products, their quantities, and total price.",
+        "Packing clerks must ensure each reprinted invoice has a unique copy number.",
+        "Delivery clerks must calculate optimal itineraries for delivering multiple orders.",
+        "Delivery clerks must print itineraries, take the corresponding bags and invoices, and collect customer signatures for order confirmation.",
+        "Delivery clerks must ensure customers sign a copy of the invoice, which is retained by the company, while the customer keeps another copy.",
+        "Customers must be able to inquire about the status of an order by providing the order number.",
+        "The system must indicate whether the delivery clerk is on the way.",
+        "Customers must be able to cancel an order by providing the order number, but only before the order has been assembled.",
+        "Canceled orders cannot be undone.",
+        "Orders cannot be updated; customers must cancel and place a new order if changes are needed.",
+        "The system must be web-based, automating all current processes, replacing phone ordering.",
+        "The system must replace text processing systems for labeling.",
+        "The system must replace spreadsheet tools for itinerary calculation.",
+        "The application must support the following browsers (specific versions to be defined).",
+        "The user groups are customers, packing clerks, delivery clerks, and managers.",
+        "Customers must confirm deliveries via browser on a smartphone by entering a password.",
+        "The application must provide a browser-based, unauthenticated product search feature.",
+        "Customers must be able to place orders via text message using a predefined string format including customer number, password, product codes, and quantities.",
+        "Each product must have a unique product code for SMS orders.",
+        "The system must handle SMS orders within the limitations of text message length.",
+        "The system must respond to SMS orders with a text message containing the assigned order number.",
+        "Customers must be able to cancel orders via text message by providing the order number in a predefined format.",
+        "The system must generate and transfer payment records to the existing payment system upon order assembly.",
+        "Payment records must include customer number, order number, total amount in Euros, and expected payment date.",
+        "The system must automatically generate and print a nightly business report for managers, detailing orders of the day, products, amounts, packing clerks, delivery clerks, customers, addresses, and order numbers."
     ]
 
 
@@ -71,7 +87,7 @@ def get_embeddings(oai, requirements):
             model="text-embedding-ada-002",
             input=req
         )
-        embeddings.append(response['data'][0]['embedding'])
+        embeddings.append(response.data[0].embedding)
 
     # Save embeddings to a file
     with open(embeddings_file, 'w') as f:
@@ -130,7 +146,8 @@ def cluster_embeddings(embeddings, requirements, num_clusters=5):
 # Save clusters to a file
 def save_clusters_to_file(clusters, requirements, num_clusters):
     print("Saving clusters to file...")
-    output = {f"Cluster {i}": [requirements[j] for j, label in enumerate(clusters) if label == i] for i in range(num_clusters)}
+    output = {f"Cluster {i}": [requirements[j] for j, label in enumerate(clusters) if label == i] for i in
+              range(num_clusters)}
     with open("output/clusters.json", "w") as f:
         json.dump(output, f, indent=2)
 
@@ -145,6 +162,10 @@ def visualize_embeddings(embeddings, clusters):
     if len(embeddings_array.shape) != 2:
         raise ValueError(f"Expected embeddings to be a 2D array, got shape {embeddings_array.shape}")
 
+    # Ensure clusters match the number of embeddings
+    if len(embeddings_array) != len(clusters):
+        raise ValueError(f"Mismatch: embeddings have {len(embeddings_array)} elements but clusters have {len(clusters)}")
+
     # Set perplexity dynamically
     n_samples = embeddings_array.shape[0]
     perplexity = min(30, n_samples - 1)  # Perplexity must be less than n_samples
@@ -154,7 +175,7 @@ def visualize_embeddings(embeddings, clusters):
 
     # Define distinct colors for clusters
     cluster_ids = np.unique(clusters)
-    colors = ['red', 'blue', 'green', 'orange', 'purple']  # Add more colors if needed
+    colors = ['red', 'blue', 'green', 'orange', 'purple', 'yellow', 'cyan', 'magenta', 'lime', 'pink', 'brown', 'gray']
     if len(cluster_ids) > len(colors):
         raise ValueError("Not enough colors defined for the number of clusters.")
     color_map = {cluster_id: colors[i] for i, cluster_id in enumerate(cluster_ids)}
@@ -170,7 +191,8 @@ def visualize_embeddings(embeddings, clusters):
 
     # Create a legend with cluster labels and move it outside the plot
     legend_labels = [f"Cluster {cluster_id}" for cluster_id in cluster_ids]
-    handles = [plt.Line2D([0], [0], marker='o', color=color_map[cluster_id], markersize=10, linestyle='') for cluster_id in cluster_ids]
+    handles = [plt.Line2D([0], [0], marker='o', color=color_map[cluster_id], markersize=10, linestyle='') for cluster_id
+               in cluster_ids]
     plt.legend(
         handles, legend_labels, title="Clusters", loc="upper left",
         bbox_to_anchor=(1.05, 1), borderaxespad=0
@@ -201,13 +223,13 @@ def main():
     embeddings = get_embeddings(oai, requirements)
     pinecone_index = setup_pinecone()
 
-    # upsert_embeddings_to_pinecone(pinecone_index, embeddings)
+    upsert_embeddings_to_pinecone(pinecone_index, embeddings)
 
     query_vector = embeddings[0]  # Use the first embedding as the query vector
     result = pinecone_index.query(vector=query_vector, top_k=len(embeddings), include_values=True)
     data = [res['values'] for res in result['matches']]
 
-    num_clusters = 5
+    num_clusters = 12
     clusters = cluster_embeddings(embeddings, requirements, num_clusters)
     save_clusters_to_file(clusters, requirements, num_clusters)
 

@@ -1,0 +1,33 @@
+@startuml
+skinparam componentStyle rectangle
+
+' Define components
+component AddressBook as "AddressBook (Cluster 0)"
+component PhoneOrders as "PhoneOrders (Cluster 1)"
+component ExpressDelivery as "ExpressDelivery (Cluster 2)"
+component CustomerInterface as "CustomerInterface (Cluster 3)"
+component Blueprints as "Blueprints (Cluster 4)"
+component Confirmation as "Confirmation (Cluster 5)"
+component Fulfillment as "Fulfillment (Cluster 6)"
+component OrderControl as "OrderControl (Cluster 7)"
+component Automation as "Automation (Cluster 8)"
+component WebSupport as "WebSupport (Cluster 9)"
+component ProductCatalog as "ProductCatalog (Cluster 10)"
+component Authentication as "Authentication (Cluster 11)"
+
+' Define interactions
+Authentication --> CustomerInterface : "Authenticate users"
+PhoneOrders --> CustomerInterface : "Handles phone orders"
+WebSupport --> CustomerInterface : "Provides browser-based interface"
+CustomerInterface --> OrderControl : "Request order updates/cancellations"
+OrderControl --> Fulfillment : "Cancel or process orders"
+Blueprints --> CustomerInterface : "Retrieve blueprints for orders"
+ProductCatalog --> CustomerInterface : "Provide product details"
+ProductCatalog --> Blueprints : "Support product assembly"
+Automation --> Fulfillment : "Automates packing & reporting"
+Fulfillment --> Confirmation : "Generate invoices"
+Fulfillment --> ExpressDelivery : "Coordinate deliveries"
+AddressBook --> Fulfillment : "Provide delivery address"
+ExpressDelivery --> Confirmation : "Record delivery confirmations"
+
+@enduml
