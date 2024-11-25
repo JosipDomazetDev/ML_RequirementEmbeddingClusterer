@@ -152,21 +152,36 @@ def visualize_embeddings(embeddings, clusters):
     tsne = TSNE(n_components=2, random_state=42, perplexity=perplexity)
     reduced_embeddings = tsne.fit_transform(embeddings_array)
 
+    # Define distinct colors for clusters
+    cluster_ids = np.unique(clusters)
+    colors = ['red', 'blue', 'green', 'orange', 'purple']  # Add more colors if needed
+    if len(cluster_ids) > len(colors):
+        raise ValueError("Not enough colors defined for the number of clusters.")
+    color_map = {cluster_id: colors[i] for i, cluster_id in enumerate(cluster_ids)}
+    cluster_colors = [color_map[cluster] for cluster in clusters]
+
     # Scatter plot of reduced embeddings
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(
         reduced_embeddings[:, 0],
         reduced_embeddings[:, 1],
-        c=clusters, cmap="viridis"
+        c=cluster_colors
     )
-    plt.colorbar(scatter, label="Cluster ID")
+
+    # Create a legend with cluster labels and move it outside the plot
+    legend_labels = [f"Cluster {cluster_id}" for cluster_id in cluster_ids]
+    handles = [plt.Line2D([0], [0], marker='o', color=color_map[cluster_id], markersize=10, linestyle='') for cluster_id in cluster_ids]
+    plt.legend(
+        handles, legend_labels, title="Clusters", loc="upper left",
+        bbox_to_anchor=(1.05, 1), borderaxespad=0
+    )
 
     # Add title and description
     plt.title("Requirement Clusters (t-SNE Visualization)")
     plt.xlabel("Dimension 1 (Reduced)")
     plt.ylabel("Dimension 2 (Reduced)")
 
-    # Add a legend describing the purpose of the diagram
+    # Add a description below the diagram
     plt.figtext(
         0.5, -0.05,
         "This diagram visualizes the relative similarity of requirements, reduced from high-dimensional embeddings into 2D space. Points with similar meanings are grouped together.",
